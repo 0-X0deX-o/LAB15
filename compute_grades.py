@@ -19,11 +19,20 @@ for element in list1:
 
 
 class Student:
-    def __init__(self, name):
-        self.name = name
 
-    def add_assignment(self, assignment_name, score)
-        self.assignment_name = name
-        self.score = score
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+        self.assignments = {}
+        self.num_assns = 0
+        self.scores = []
+
+    def add_assignment(self, assignment_name, score):
+        self.assignments[assignment_name] = scores
+        self.num_assns  += 1
         
+    def output_stats(self, assignments_dict):
+        self.scores = list(assignment_dict.values())
+
+    def 
 # thePrimagen/keyboards

@@ -1,5 +1,5 @@
 1. conduct all of these opearations
-> total number of available student scores
+> total number of available student scores/assignments 
 
 > the sum of all these scores
 
