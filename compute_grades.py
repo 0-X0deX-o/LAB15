@@ -14,6 +14,21 @@ list1 = openPrintList('students.txt')
 list2 = openPrintList('scores.txt')
 print(list1,list2)
 
+students = []
+
+for i in range(1, len(list1)):
+    students.append({list1[i][0]:[list1[i][1],0,0,0]})
+    for j in range(1, len(list1)):
+        if list2[j][0] == students[i][list1[0][0]]:
+            students[i][1] += 1
+            students[i][2] += 1
+
+
+
+
+    global()[f'_{id}'.format()] = new Student(id, name)    
+
+'''
 class Student:
 
     def __init__(self, id, name):
@@ -30,15 +45,15 @@ class Student:
         self.num_assns  += 1
         
     def create_scores_list(self, assignments_dict):
-        self.scores = list(assignment_dict.values())
+        self.scores = list(assignments_dict.values())
 
-    def sum_scores(scores_list):
+    def sum_scores(self, scores_list):
         sum_total = 0
         for i in range(0, len(scores_list)):
             sum_total += scores_list[i]
         self.total_score = sum_total
 
-    def compute_average(total_assignments, total_score):
+    def compute_average(self, total_assignments, total_score):
         self.average_score = total_assignments / total_score
         
 for elem in list1:
@@ -67,3 +82,6 @@ for elem in list1:
     with open('grades.txt', 'a') as f:
         f.write(output line)
         f.close()
+'''
+
+
