@@ -12,25 +12,30 @@ def openPrintList(file):
 
 list1 = openPrintList('students.txt')
 list2 = openPrintList('scores.txt')
-print(list1,list2)
-
-students = []
+header_line = ', '.join(outputHead)
+with open('grades.txt','w') as f:
+    f.write(header_line)
+    f.close()
 
 for i in range(1, len(list1)):
+    students = []
     students.append({list1[i][0]:[list1[i][1],0,0,0]})
     for j in range(1, len(list1)):
-        if list2[j][0] == students[i][list1[0][0]]:
-            students[i][1] += 1
-            students[i][2] += 1
+        if list2[j][0] == students[i - 1][list1[i][0]]:
+            students[i - 1][list1[i][0]][1] += 1
+            students[i - 1][list1[i][0]][2] += list2[j][2]
+    students[i - 1][list1[i][0]][3] = students[i - 1][list1[i][0]][2]/students[i - 1][list1[i][0]][1]
+    output_line = ', '.join(students)
+    with open('grades.txt', 'a') as a:
+        a.write(output_line)
+        a.close()
 
 
-
-
-    global()[f'_{id}'.format()] = new Student(id, name)    
 
 '''
-class Student:
+    global()[f'_{id}'.format()] = new Student(id, name)    
 
+class Student:
     def __init__(self, id, name):
         self.id = id
         self.name = name
@@ -39,20 +44,17 @@ class Student:
         self.scores = []
         self.average_score = 0
         self.total_score = 0
-
     def add_assignment(self, assignment_name, score):
         self.assignments[assignment_name] = score
         self.num_assns  += 1
         
     def create_scores_list(self, assignments_dict):
         self.scores = list(assignments_dict.values())
-
     def sum_scores(self, scores_list):
         sum_total = 0
         for i in range(0, len(scores_list)):
             sum_total += scores_list[i]
         self.total_score = sum_total
-
     def compute_average(self, total_assignments, total_score):
         self.average_score = total_assignments / total_score
         
@@ -63,12 +65,10 @@ for elem in list1:
 for elem in list2:
     compVar = '_' + str(elem[0])
     eval(compVar).add_assignment(elem[1], elem[2])
-
 header_string = ', '.join(outputHead) 
 with open('grades.txt', 'w') as f:
     f.write(header_string)
     f.close()
-
 for elem in list1:
     output_list = []
     compVar = '_' + str(elem[0])
@@ -83,5 +83,3 @@ for elem in list1:
         f.write(output line)
         f.close()
 '''
-
-
