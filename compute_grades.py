@@ -1,85 +1,101 @@
 # David Liddle              # 12-1-22
 # Lab 15 Exercise 1
 
-outputHead = ['Student ID', 'Name', 'Total Scores/Assignments', 'Total Score', 'Average Score']
-
-def openPrintList(file):
+def open_print_list(file):
     with open(file, 'r') as f:
         of = f.readlines()
         f.close()
-
     return of
 
-list1 = openPrintList('students.txt')
-list2 = openPrintList('scores.txt')
-header_line = ', '.join(outputHead)
+def extract_student_data(students_dict, student_data_list):
+    for i in range(1, len(student_data_list)):
+        interim_list = student_data_list[i].split(',')
+        students_dict[interim_list[0]] = [(interim_list[1].rstrip()).strip(),0,0,0]
+    return students_dict    
+
+def extract_student_assignemnts(students_dict, student_assignments_list):
+    for i in range(1, len(student_assignments_list)):
+        interim_list = student_assignments_list[i].split(',')
+        students_dict[interim_list[0]][1] += 1
+        students_dict[interim_list[0]][2] += int(interim_list[2].rstrip())
+    return students_dict
+
+def compute_average(students_dict):
+    keys_list = students_dict.keys()
+    for elem in keys_list:
+        num_assns = students_dict[elem][1]
+        total_score = students_dict[elem][2]
+        avg_score = total_score/num_assns
+        formatted_avg_score = '{:.1f}'.format(avg_score)
+        students_dict[elem][3] = formatted_avg_score
+        students_dict[elem][1] = str(num_assns)
+        students_dict[elem][2] = str(total_score)
+    return students_dict     
+ 
+def create_grades_file():
+    header_string = 'Student ID,Name,Total Scores,Sum of All Scores,Score Average'
+    with open('grades.txt', 'w') as f:
+        f.write(header_string)
+        f.write('\n')
+        f.close()
+
+def append_output_lines(students_dict):
+    keys_list = []
+    for key in students_dict:
+        keys_list.append(key)
+    for elem in keys_list:
+        interim_list = students_dict[elem]
+        interim_list.insert(0, elem)
+        append_string = ','.join(interim_list)
+        with open('grades.txt', 'a') as f:
+            f.write(append_string)
+            if keys_list.index(elem) != len(keys_list)-1:
+                f.write('\n')
+                f.close()
+            else:
+                f.close()
+
+students = {}
+list1 = open_print_list('students.txt')
+list2 = open_print_list('scores.txt')
+students_step_1 = extract_student_data(students, list1)
+students_step_2 = extract_student_assignemnts(students_step_1, list2)
+students_step_3 = compute_average(students_step_2)
+create_grades_file()
+append_output_lines(students_step_3)
+
+list3 = open_print_list
+
+'''
+    student_dictionary_structure = {
+        '123456': [name, total_assignments, total_points, avg_points]
+        ...  
+    }
+
+['Student ID, Name\n', 
+'123456, John Smith\n', 
+'654321, John Smith\n', 
+'246810, Trevor Smith\n', 
+'135791, Sally Smith']
+
+['Student ID, Assignment, Score\n', 
+'123456, Zany Text, 100\n', 
+'123456, Magic 9 Ball, 60\n', 
+'123456, Nim Grab, 80\n', 
+'123456, Dungeon Crawl, 78\n', 
+'123456, Ultimate TODO List, 90\n', 
+'654321, Zany Text, 48\n', 
+'654321, Ultimate TODO List, 82\n', 
+'654321, Nim Grab, 17\n', 
+'246810, Zany Text, 100\n', 
+'246810, Ultimate TODO List, 24\n', 
+'246810, Nim Grab, 98\n', 
+'135791, Zany Text, 84\n', 
+'135791, Ultimate TODO List, 3\n', 
+'135791, Nim Grab, 89\n', 
+'135791, Dungeon Crawl, 0']
+
 with open('grades.txt','w') as f:
     f.write(header_line)
     f.close()
-
-for i in range(1, len(list1)):
-    students = []
-    students.append({list1[i][0]:[list1[i][1],0,0,0]})
-    for j in range(1, len(list1)):
-        if list2[j][0] == students[i - 1][list1[i][0]]:
-            students[i - 1][list1[i][0]][1] += 1
-            students[i - 1][list1[i][0]][2] += list2[j][2]
-    students[i - 1][list1[i][0]][3] = students[i - 1][list1[i][0]][2]/students[i - 1][list1[i][0]][1]
-    output_line = ', '.join(students)
-    with open('grades.txt', 'a') as a:
-        a.write(output_line)
-        a.close()
-
-
-
-'''
-    global()[f'_{id}'.format()] = new Student(id, name)    
-
-class Student:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
-        self.assignments = {}
-        self.num_assns = 0
-        self.scores = []
-        self.average_score = 0
-        self.total_score = 0
-    def add_assignment(self, assignment_name, score):
-        self.assignments[assignment_name] = score
-        self.num_assns  += 1
-        
-    def create_scores_list(self, assignments_dict):
-        self.scores = list(assignments_dict.values())
-    def sum_scores(self, scores_list):
-        sum_total = 0
-        for i in range(0, len(scores_list)):
-            sum_total += scores_list[i]
-        self.total_score = sum_total
-    def compute_average(self, total_assignments, total_score):
-        self.average_score = total_assignments / total_score
-        
-for elem in list1:
-    compVar = '_' + str(elem[0]) 
-    eval(compVar) = new Student(elem[0], elem[1])
-    
-for elem in list2:
-    compVar = '_' + str(elem[0])
-    eval(compVar).add_assignment(elem[1], elem[2])
-header_string = ', '.join(outputHead) 
-with open('grades.txt', 'w') as f:
-    f.write(header_string)
-    f.close()
-for elem in list1:
-    output_list = []
-    compVar = '_' + str(elem[0])
-    vr = eval(compVar)
-    output_list.append(str(vr.id))
-    output_list.append(str(vr.name))
-    output_list.append(str(vr.create_scores_list(vr.assignments)))
-    output_list.append(str(vr.sum_scores(vr.scores)))
-    output_list.append(str(vr.compute_average(vr.num_assns, vr.total_score)))
-    output_line  = ', '.join(output_list)
-    with open('grades.txt', 'a') as f:
-        f.write(output line)
-        f.close()
 '''
